@@ -265,7 +265,7 @@ function shareResult() {
   const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
   const text = `${summaryBoxes}
 
-I got ${score} out of ${exhibitions.length} exhibitions right today on Gallery Guesser. Try it yourself at galleryguesser.com 🎨`;
+I got ${score} out of ${exhibitions.length} exhibitions right today on Gallery Guesser. Try it at galleryguesser.com 🎨`;
 
   if (navigator.share) {
     navigator.share({
