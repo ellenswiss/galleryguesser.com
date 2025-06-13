@@ -104,6 +104,16 @@
   function showQuiz(index) {
     const quiz = exhibitions[index];
     img.src = quiz.image;
+
+      // Update progress text
+  const progressText = document.getElementById("progress-text");
+  progressText.textContent = `Question ${index + 1} of ${exhibitions.length}`;
+
+  // Update progress bar
+  const progressFill = document.getElementById("progress-fill");
+  const progressPercent = ((index + 1) / exhibitions.length) * 100;
+  progressFill.style.width = `${progressPercent}%`;
+
     feedback.textContent = "";
     optionsContainer.innerHTML = "";
 
