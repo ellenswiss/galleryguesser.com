@@ -237,15 +237,19 @@
   optionsContainer.appendChild(summaryDiv);
 
   // Add new footer-style message under results
-  const resultsFooter = document.createElement("p");
+  const resultsFooter = document.createElement("div");
   resultsFooter.style.fontSize = "0.9rem";
   resultsFooter.style.marginTop = "2rem";
   resultsFooter.innerHTML = `
+  <p style="margin-bottom: 1rem;">
     Gallery Guesser is a visual memory game by
     <a href="https://seesawmap.com/download" class="email-link">See Saw</a>.
-    <br><br>We’d love to hear from you—send any questions or feedback to
+  </p>
+  <p>
+    We’d love to hear from you—send any questions or feedback to
     <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a>.
-  `;
+  </p>
+`;
   optionsContainer.appendChild(resultsFooter);
 
   // Hook up share functionality after button is created
