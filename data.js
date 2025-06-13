@@ -7,9 +7,9 @@ const exhibitions = [
     city: "New York",
     options: [
       "Robert Janitz: 1001 Nights [+1]",
-      "Remote Work",
-      "Rachel Harrison: Perimeter",
-      "Soft Landing"
+      "Sam Moyer: Woman with Holes",
+      "Rachel Harrison: The Friedmann Equations",
+      "Willem de Kooning: Endless Painting"
     ]
   }
 ];
