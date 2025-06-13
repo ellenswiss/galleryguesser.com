@@ -1,7 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gallery Guesser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+    }
+    button {
+      margin: 0.5rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
 <body>
   <h1>Gallery Guesser</h1>
+  <div id="quiz-container">
+    <img id="quiz-image" src="" alt="Exhibition image" style="max-width: 100%; margin-bottom: 1rem;">
+    <div id="options"></div>
+    <p id="feedback" style="margin-top: 1rem; font-weight: bold;"></p>
+  </div>
 
-  <img src="https://images.seesawmap.com/unsafe/filters:quality(95):format(jpeg)/https://seesaw-photos.s3.amazonaws.com/_wSN2htOSAIAMiDG0qKbgg" alt="Test image" style="max-width: 100%; margin-bottom: 1rem; border: 2px solid red;">
+  <p style="margin-top: 3rem; font-size: 0.9rem;">
+    Feel free to get in touch: <a href="mailto:editor@seesawmap.com">editor@seesawmap.com</a>
+  </p>
 
-  <p>If you see an image above this line, it's working!</p>
+  <script src="data.js"></script>
+  <script>
+    const quiz = exhibitions[0];
+    const img = document.getElementById("quiz-image");
+    const optionsContainer = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+
+    console.log("Loaded quiz:", quiz); // For debugging
+
+    img.src = quiz.image;
+
+    quiz.options.forEach(option => {
+      const button = document.createElement("button");
+      button.textContent = option;
+      button.onclick = () => {
+        if (option === quiz.headline) {
+          feedback.textContent = "✅ Correct!";
+          feedback.style.color = "green";
+        } else {
+          feedback.textContent = "❌ Incorrect";
+          feedback.style.color = "crimson";
+        }
+      };
+      optionsContainer.appendChild(button);
+    });
+  </script>
 </body>
+</html>
