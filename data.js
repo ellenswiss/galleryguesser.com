@@ -11,6 +11,7 @@ const exhibitions = [
       "Rachel Harrison at Greene Naftali",
       "Willem de Kooning at Gagosian"
     ]
+    correctDisplay: "Robert Janitz at Canada"
   },
   {
     image: "https://images.seesawmap.com/unsafe/filters:quality(95):format(jpeg)/https%3A//seesaw-photos.s3.amazonaws.com/pzK5QcMf95igbRojcDCI8w",
