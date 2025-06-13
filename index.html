@@ -208,7 +208,7 @@
   document.getElementById("progress-bar").style.display = "none";
 
   // Build score boxes
-  const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join("");
+  const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
 
   const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
 
