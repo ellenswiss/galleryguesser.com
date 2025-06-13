@@ -66,28 +66,59 @@
   </footer>
 
   <script src="data.js"></script>
-  <script>
-    const quiz = exhibitions[0]; // Only one entry for now
-    const img = document.getElementById("quiz-image");
-    const optionsContainer = document.getElementById("options");
-    const feedback = document.getElementById("feedback");
+  <script src="data.js"></script>
+<script>
+  let currentIndex = 0;
+  let score = 0;
 
+  const img = document.getElementById("quiz-image");
+  const optionsContainer = document.getElementById("options");
+  const feedback = document.getElementById("feedback");
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function showQuiz(index) {
+    const quiz = exhibitions[index];
     img.src = quiz.image;
+    feedback.textContent = "";
+    optionsContainer.innerHTML = "";
 
-    quiz.options.forEach(option => {
+    shuffle(quiz.options).forEach(option => {
       const button = document.createElement("button");
       button.textContent = option;
       button.onclick = () => {
         if (option === quiz.headline) {
           feedback.textContent = "✅ Correct!";
           feedback.style.color = "green";
+          score++;
         } else {
           feedback.textContent = "❌ Incorrect";
           feedback.style.color = "crimson";
         }
+
+        setTimeout(() => {
+          currentIndex++;
+          if (currentIndex < exhibitions.length) {
+            showQuiz(currentIndex);
+          } else {
+            showResults();
+          }
+        }, 1000);
       };
       optionsContainer.appendChild(button);
     });
-  </script>
+  }
+
+  function showResults() {
+    img.style.display = "none";
+    optionsContainer.innerHTML = "";
+    feedback.innerHTML = `You got ${score} out of ${exhibitions.length} correct. 🎉`;
+  }
+
+  // Start quiz
+  showQuiz(currentIndex);
+</script>
 </body>
 </html>
