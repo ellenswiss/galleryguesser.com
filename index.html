@@ -242,16 +242,16 @@
 
   optionsContainer.appendChild(summaryDiv);
 
-  // ✅ Hook up share functionality
+  // Hook up share functionality after button is created
   document.getElementById("share-button").onclick = shareResult;
 }
+
 
 
 function shareResult() {
   const text = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
 
   if (navigator.share) {
-    // Mobile (iOS + Android) native share prompt
     navigator.share({
       title: "Gallery Guesser",
       text: text,
@@ -260,7 +260,6 @@ function shareResult() {
       console.error("Share failed:", err);
     });
   } else {
-    // Fallback for desktop
     navigator.clipboard.writeText(text).then(() => {
       alert("Copied to clipboard! You can now paste it anywhere.");
     });
@@ -268,9 +267,9 @@ function shareResult() {
 }
 
 
+
   `;
 
-  optionsContainer.appendChild(summaryDiv);
 }
 
   // Start quiz
