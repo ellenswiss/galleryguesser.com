@@ -1,41 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Gallery Guesser</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-      padding: 1rem;
-      background: #f9f9f9;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      max-width: 500px;
-      margin-bottom: 1.5rem;
-    }
-    a {
-      color: black;
-      text-decoration: underline;
-    }
-  </style>
-</head>
 <body>
   <h1>Gallery Guesser</h1>
-  <p>A visual memory game from the team at See Saw.<br><br>
-     Coming soon.</p>
-  <p>Follow <a href="https://instagram.com/seesawmap" target="_blank">@seesawmap</a> for updates.</p>
-  <p style="margin-top: 2rem; font-size: 0.9rem;">Feel free to get in touch: <a href="mailto:editor@seesawmap.com">editor@seesawmap.com</a></p>
+  <div id="quiz-container">
+    <img id="quiz-image" src="" alt="Exhibition image" style="max-width: 100%; margin-bottom: 1rem;">
+    <div id="options"></div>
+    <p id="feedback" style="margin-top: 1rem; font-weight: bold;"></p>
+  </div>
+
+  <p style="margin-top: 3rem; font-size: 0.9rem;">
+    Feel free to get in touch: <a href="mailto:editor@seesawmap.com">editor@seesawmap.com</a>
+  </p>
+
+  <script src="data.js"></script>
+  <script>
+    const quiz = exhibitions[0]; // We'll do one quiz entry for now
+    const img = document.getElementById("quiz-image");
+    const optionsContainer = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+
+    img.src = quiz.image;
+
+    quiz.options.forEach(option => {
+      const button = document.createElement("button");
+      button.textContent = option;
+      button.style.margin = "0.5rem";
+      button.style.padding = "0.5rem 1rem";
+      button.style.cursor = "pointer";
+      button.onclick = () => {
+        if (option === quiz.headline) {
+          feedback.textContent = "✅ Correct!";
+          feedback.style.color = "green";
+        } else {
+          feedback.textContent = "❌ Incorrect";
+          feedback.style.color = "crimson";
+        }
+      };
+      optionsContainer.appendChild(button);
+    });
+  </script>
 </body>
-</html>
+
