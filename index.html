@@ -114,13 +114,17 @@
   const progressText = document.getElementById("progress-text");
   progressText.textContent = `Question ${index + 1} of ${exhibitions.length}`;
 
-  // Update progress bar
+    // Update progress bar
   const progressFill = document.getElementById("progress-fill");
   const progressPercent = ((index + 1) / exhibitions.length) * 100;
   progressFill.style.width = `${progressPercent}%`;
 
-    feedback.textContent = "";
-    optionsContainer.innerHTML = "";
+  // Update progress count (e.g., 1/5)
+  const progressCount = document.getElementById("progress-count");
+  progressCount.textContent = `${index + 1}/${exhibitions.length}`;
+
+  feedback.textContent = "";
+  optionsContainer.innerHTML = "";
 
     shuffle(quiz.options).forEach(option => {
       const button = document.createElement("button");
