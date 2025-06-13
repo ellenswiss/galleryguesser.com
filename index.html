@@ -132,6 +132,25 @@
 
   <script src="data.js?v=4"></script>
 <script>
+
+  function shareResult() {
+  const text = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: "Gallery Guesser",
+      text: text,
+      url: "https://galleryguesser.com"
+    }).catch((err) => {
+      console.error("Share failed:", err);
+    });
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied to clipboard! You can now paste it anywhere.");
+    });
+  }
+}
+
   
   function copySummary(text) {
   navigator.clipboard.writeText(text).then(() => {
