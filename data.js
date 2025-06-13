@@ -1,12 +1,15 @@
 const exhibitions = [
   {
-    image: "https://seesawmap.com/admin/photos/185651",
-    headline: "Robert Janitz: 1001 Nights [ +1 ]",
+    image: "https://images.seesawmap.com/unsafe/filters:quality(95):format(jpeg)/https%3A//seesaw-photos.s3.amazonaws.com/_wSN2htOSAIAMiDG0qKbgg",
+    headline: "1001 Nights [+1]",
+    artist: "Rachel Harrison",
+    gallery: "Canada",
+    city: "New York",
     options: [
-      "1001 Nights [ +1 ]",
-      "Doron Langberg: Tender",
-      "Amy Sillman: After Metamorphoses",
-      "Rachel Harrison: Life Hack"
+      "1001 Nights [+1]",
+      "Remote Work",
+      "Rachel Harrison: Perimeter",
+      "Soft Landing"
     ]
   }
 ];
