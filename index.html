@@ -260,7 +260,8 @@
 
 
 function shareResult() {
-  const text = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+  const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+  const text = `${summaryBoxes}\nI got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
 
   if (navigator.share) {
     navigator.share({
