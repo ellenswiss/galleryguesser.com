@@ -119,7 +119,6 @@
 
     <img id="quiz-image" src="" alt="Exhibition image">
     <div id="options"></div>
-    <p id="feedback"></p>
   </div>
 
 <footer>
@@ -146,7 +145,6 @@
 
   const img = document.getElementById("quiz-image");
   const optionsContainer = document.getElementById("options");
-  const feedback = document.getElementById("feedback");
 
   function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
@@ -165,7 +163,6 @@
   const progressCount = document.getElementById("progress-count");
   progressCount.textContent = `${index + 1}/${exhibitions.length}`;
 
-  feedback.textContent = "";
   optionsContainer.innerHTML = "";
 
     shuffle(quiz.options).forEach(option => {
@@ -225,7 +222,6 @@
     </button>
   `;
 
-  feedback.innerHTML = ""; // Clear previous feedback
   optionsContainer.appendChild(summaryDiv);
 }
 
