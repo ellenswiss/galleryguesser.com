@@ -4,6 +4,7 @@ const exhibitions = [
     headline: "Robert Janitz: 1001 Nights [+1]",
     artist: "Robert Janitz",
     gallery: "Canada",
+    correctDisplay: "Robert Janitz at Canada",
     city: "New York",
     options: [
       "Robert Janitz at Canada",
@@ -11,19 +12,19 @@ const exhibitions = [
       "Rachel Harrison at Greene Naftali",
       "Willem de Kooning at Gagosian"
     ]
-    correctDisplay: "Robert Janitz at Canada"
   },
   {
     image: "https://images.seesawmap.com/unsafe/filters:quality(95):format(jpeg)/https%3A//seesaw-photos.s3.amazonaws.com/pzK5QcMf95igbRojcDCI8w",
     headline: "Willem de Kooning: Endless Painting",
     artist: "Willem de Kooning",
     gallery: "Gagosian",
+    correctDisplay: "Willem de Kooning at Gagosian",
     city: "New York",
     options: [
-      "Willem de Kooning: Endless Painting",
-      "Charline von Heyl: Snake Eyes",
-      "Julie Mehretu: Conjured Parts",
-      "Robert Janitz: 1001 Nights [+1]"
+      "Willem de Kooning at Gagosian",
+      "Charline von Heyl at Petzel",
+      "Julie Mehretu at Marian Goodman",
+      "Robert Janitz at Canada"
     ]
   },
   {
@@ -31,12 +32,13 @@ const exhibitions = [
     headline: "Sam Moyer: Woman with Holes",
     artist: "Sam Moyer",
     gallery: "Hill Art Foundation",
+    correctDisplay: "Sam Moyer at Hill Art Foundation",
     city: "New York",
     options: [
-      "Sam Moyer: Woman with Holes",
-      "Rachel Rose: Enclosure",
-      "Willem de Kooning: Endless Painting",
-      "Tschabalala Self: Cotton Mouth"
+      "Sam Moyer at Hill Art Foundation",
+      "Rachel Rose at Pilar Corrias",
+      "Willem de Kooning at Gagosian",
+      "Tschabalala Self at Pilar Corrias"
     ]
   },
   {
@@ -44,12 +46,13 @@ const exhibitions = [
     headline: "Mary Weatherford: The Surrealist",
     artist: "Mary Weatherford",
     gallery: "David Kordansky",
+    correctDisplay: "Mary Weatherford at David Kordansky",
     city: "Los Angeles",
     options: [
-      "Mary Weatherford: The Surrealist",
-      "Amy Sillman: After Metamorphoses",
-      "Laura Owens: Untitled",
-      "Sam Moyer: Woman with Holes"
+      "Mary Weatherford at David Kordansky",
+      "Amy Sillman at Gladstone",
+      "Laura Owens at Matthew Marks",
+      "Sam Moyer at Hill Art Foundation"
     ]
   },
   {
@@ -57,12 +60,13 @@ const exhibitions = [
     headline: "Ugo Rondinone: The Rainbow Body",
     artist: "Ugo Rondinone",
     gallery: "Sadie Coles HQ",
+    correctDisplay: "Ugo Rondinone at Sadie Coles HQ",
     city: "London",
     options: [
-      "Ugo Rondinone: The Rainbow Body",
-      "Wade Guyton: For Us",
-      "Mary Weatherford: The Surrealist",
-      "Roni Horn: Remembered Words"
+      "Ugo Rondinone at Sadie Coles HQ",
+      "Wade Guyton at Petzel",
+      "Mary Weatherford at David Kordansky",
+      "Roni Horn at Hauser & Wirth"
     ]
   }
 ];
