@@ -64,6 +64,15 @@
       cursor: pointer;
     }
 
+    .email-link {
+  color: #70c6f9;
+  text-decoration: none;
+}
+
+.email-link:hover {
+  text-decoration: underline;
+}
+
     #feedback {
       margin-top: 1rem;
       font-weight: bold;
@@ -94,9 +103,14 @@
     <p id="feedback"></p>
   </div>
 
-  <footer>
-    A visual quiz game from See Saw. Feedback: <a href="mailto:editor@seesawmap.com">editor@seesawmap.com</a>
-  </footer>
+<footer>
+  <p class="tagline">
+    A visual quiz game from See Saw.
+  </p>
+  <p style="margin-top: 1rem;">
+    Feedback: <a href="mailto:editor@seesawmap.com" class="email-link">editor@seesawmap.com</a>
+  </p>
+</footer>
 
   <script src="data.js?v=4"></script>
 <script>
