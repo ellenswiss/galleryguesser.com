@@ -214,21 +214,11 @@
 
   function showResults() {
   img.style.display = "none";
-optionsContainer.innerHTML = "";
-document.getElementById("progress-bar").style.display = "none";
+  optionsContainer.innerHTML = "";
+  document.getElementById("progress-bar").style.display = "none";
 
-// Change tagline to "Good guessing!"
-document.querySelector(".tagline").textContent = "Good guessing!";
-
-// Update footer text and link
-document.querySelector("footer").innerHTML = `
-  <p style="font-size: 0.9rem;">
-    Gallery Guesser is a visual memory game by <a href="https://seesawmap.com/download" class="email-link">See Saw</a>.
-    We’d love to hear from you—send any questions or feedback to
-    <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a>.
-  </p>
-`;
-
+  // Change tagline to "Good guessing!"
+  document.querySelector(".tagline").textContent = "Good guessing!";
 
   const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
   const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
@@ -246,9 +236,22 @@ document.querySelector("footer").innerHTML = `
 
   optionsContainer.appendChild(summaryDiv);
 
+  // Add new footer-style message under results
+  const resultsFooter = document.createElement("p");
+  resultsFooter.style.fontSize = "0.9rem";
+  resultsFooter.style.marginTop = "2rem";
+  resultsFooter.innerHTML = `
+    Gallery Guesser is a visual memory game by
+    <a href="https://seesawmap.com/download" class="email-link">See Saw</a>.
+    We’d love to hear from you—send any questions or feedback to
+    <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a>.
+  `;
+  optionsContainer.appendChild(resultsFooter);
+
   // Hook up share functionality after button is created
   document.getElementById("share-button").onclick = shareResult;
 }
+
 
 
 
