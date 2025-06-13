@@ -172,17 +172,23 @@
       const button = document.createElement("button");
       button.textContent = option;
       button.onclick = () => {
-  const isCorrect = option === quiz.correctDisplay;
-  results.push(isCorrect);
+  results.push(option === quiz.correctDisplay);
+  button.disabled = true;
 
-  if (isCorrect) {
-    feedback.textContent = "✅ Correct!";
-    feedback.style.color = "green";
+  if (option === quiz.correctDisplay) {
+    button.style.backgroundColor = "#4CAF50"; // green
+    button.style.color = "white";
+    button.textContent = "✅ Correct";
     score++;
   } else {
-    feedback.textContent = "❌ Incorrect";
-    feedback.style.color = "crimson";
+    button.style.backgroundColor = "#f44336"; // red
+    button.style.color = "white";
+    button.textContent = "❌ Incorrect";
   }
+
+  // Disable all other buttons too
+  const allButtons = optionsContainer.querySelectorAll("button");
+  allButtons.forEach(btn => btn.disabled = true);
 
   setTimeout(() => {
     currentIndex++;
@@ -193,6 +199,7 @@
     }
   }, 1000);
 };
+
 
       optionsContainer.appendChild(button);
     });
