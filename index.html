@@ -131,6 +131,13 @@ button:hover {
 
   <script src="data.js?v=4"></script>
 <script>
+  
+  function copySummary(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Copied to clipboard!");
+  });
+}
+
   let currentIndex = 0;
   let score = 0;
 
@@ -162,33 +169,56 @@ button:hover {
       const button = document.createElement("button");
       button.textContent = option;
       button.onclick = () => {
-        if (option === quiz.correctDisplay) {
-          feedback.textContent = "✅ Correct!";
-          feedback.style.color = "green";
-          score++;
-        } else {
-          feedback.textContent = "❌ Incorrect";
-          feedback.style.color = "crimson";
-        }
+  const isCorrect = option === quiz.correctDisplay;
+  results.push(isCorrect);
 
-        setTimeout(() => {
-          currentIndex++;
-          if (currentIndex < exhibitions.length) {
-            showQuiz(currentIndex);
-          } else {
-            showResults();
-          }
-        }, 1000);
-      };
+  if (isCorrect) {
+    feedback.textContent = "✅ Correct!";
+    feedback.style.color = "green";
+    score++;
+  } else {
+    feedback.textContent = "❌ Incorrect";
+    feedback.style.color = "crimson";
+  }
+
+  setTimeout(() => {
+    currentIndex++;
+    if (currentIndex < exhibitions.length) {
+      showQuiz(currentIndex);
+    } else {
+      showResults();
+    }
+  }, 1000);
+};
+
       optionsContainer.appendChild(button);
     });
   }
 
   function showResults() {
-    img.style.display = "none";
-    optionsContainer.innerHTML = "";
-    feedback.innerHTML = `You got ${score} out of ${exhibitions.length} correct. 🎉`;
-  }
+  img.style.display = "none";
+  optionsContainer.innerHTML = "";
+  progressText.style.display = "none";
+  document.getElementById("progress-bar").style.display = "none";
+
+  // Build score boxes
+  const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join("");
+
+  const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+
+  const summaryDiv = document.createElement("div");
+  summaryDiv.style.marginTop = "2rem";
+  summaryDiv.innerHTML = `
+    <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
+    <p style="font-weight: bold; margin-bottom: 0.5rem;">${summaryText}</p>
+    <button onclick="copySummary('${summaryText}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; border: 2px solid #70c6f9; border-radius: 999px; background: white; color: #70c6f9; font-size: 1rem; cursor: pointer;">
+      Copy Result
+    </button>
+  `;
+
+  feedback.innerHTML = ""; // Clear previous feedback
+  optionsContainer.appendChild(summaryDiv);
+}
 
   // Start quiz
   showQuiz(currentIndex);
