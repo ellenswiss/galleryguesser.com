@@ -218,7 +218,11 @@
   document.getElementById("progress-bar").style.display = "none";
 
   // Change tagline to "Good guessing! Come back tomorrow for five new exhibitions. "
-  document.querySelector(".tagline").textContent = "Good guessing!";
+  document.querySelector(".tagline").innerHTML = `
+  <strong>Good guessing!</strong><br>
+  <span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>
+`;
+
 
   const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
   const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
