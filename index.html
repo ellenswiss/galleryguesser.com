@@ -12,33 +12,50 @@
       margin: auto;
       text-align: center;
     }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
     button {
       margin: 0.5rem;
       padding: 0.5rem 1rem;
+      font-size: 1rem;
       cursor: pointer;
+    }
+
+    #feedback {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
   <h1>Gallery Guesser</h1>
+
   <div id="quiz-container">
-    <img id="quiz-image" src="" alt="Exhibition image" style="max-width: 100%; margin-bottom: 1rem;">
+    <img id="quiz-image" src="" alt="Exhibition image">
     <div id="options"></div>
-    <p id="feedback" style="margin-top: 1rem; font-weight: bold;"></p>
+    <p id="feedback"></p>
   </div>
 
-  <p style="margin-top: 3rem; font-size: 0.9rem;">
+  <footer>
     Feel free to get in touch: <a href="mailto:editor@seesawmap.com">editor@seesawmap.com</a>
-  </p>
+  </footer>
 
   <script src="data.js"></script>
   <script>
-    const quiz = exhibitions[0];
+    const quiz = exhibitions[0]; // Only one entry for now
     const img = document.getElementById("quiz-image");
     const optionsContainer = document.getElementById("options");
     const feedback = document.getElementById("feedback");
-
-    console.log("Loaded quiz:", quiz); // For debugging
 
     img.src = quiz.image;
 
