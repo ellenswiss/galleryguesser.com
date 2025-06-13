@@ -257,17 +257,14 @@
 }
 
 
-
-
 function shareResult() {
   const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
-  const text = `${summaryBoxes}\nI got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+  const text = `${summaryBoxes}\n\nI got ${score} out of ${exhibitions.length} exhibitions right today on Gallery Guesser!`;
 
   if (navigator.share) {
     navigator.share({
       title: "Gallery Guesser",
-      text: text,
-      url: "https://galleryguesser.com"
+      text: text
     }).catch((err) => {
       console.error("Share failed:", err);
     });
@@ -277,6 +274,7 @@ function shareResult() {
     });
   }
 }
+
 
   // Start quiz
   showQuiz(currentIndex);
