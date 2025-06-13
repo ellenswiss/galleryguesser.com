@@ -259,12 +259,17 @@
 
 function shareResult() {
   const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
-  const text = `${summaryBoxes}\n\nI got ${score} out of ${exhibitions.length} exhibitions right today on Gallery Guesser!`;
+  const text = `${summaryBoxes}
+
+I got ${score} out of ${exhibitions.length} exhibitions right today on Gallery Guesser. Come back tomorrow for five new exhibitions.
+
+Try it at galleryguesser.com 🎨`;
 
   if (navigator.share) {
     navigator.share({
       title: "Gallery Guesser",
-      text: text
+      text: text,
+      url: "https://galleryguesser.com"
     }).catch((err) => {
       console.error("Share failed:", err);
     });
