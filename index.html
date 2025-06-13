@@ -217,9 +217,11 @@
   summaryDiv.innerHTML = `
     <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
     <p style="font-weight: bold; margin-bottom: 0.5rem;">${summaryText}</p>
-    <button onclick="copySummary('${summaryText}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; border: 2px solid #70c6f9; border-radius: 999px; background: white; color: #70c6f9; font-size: 1rem; cursor: pointer;">
-      Copy Result
-    </button>
+<button onclick="shareResult()" ...
+  style="margin-top: 0.5rem; padding: 0.5rem 1rem; border: 2px solid #70c6f9; border-radius: 999px; background: white; color: #70c6f9; font-size: 1rem; cursor: pointer;">
+  Tell Friends
+</button>
+
   `;
 
   optionsContainer.appendChild(summaryDiv);
