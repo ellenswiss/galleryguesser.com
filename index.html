@@ -273,7 +273,7 @@ document.querySelector(".tagline").innerHTML = `
   <span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>
 `;
 
-  const summaryBoxes = results.map(correct => correct ? "⭐" : "🚫").join(" ");
+  const summaryBoxes = results.map(correct => correct ? "⭐" : "❌").join(" ");
   const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
 
   const summaryDiv = document.createElement("div");
@@ -307,7 +307,7 @@ optionsContainer.appendChild(resultsFooter);
 
 
 function shareResult() {
-  const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+  const summaryBoxes = results.map(correct => correct ? "⭐" : "❌").join(" ");
   const text = `${summaryBoxes}
 
 I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser. Try it at galleryguesser.com 🎨`;
