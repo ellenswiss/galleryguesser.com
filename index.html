@@ -183,7 +183,7 @@
     return array.sort(() => Math.random() - 0.5);
   }
 
-  function showQuiz(index) {
+function showQuiz(index) {
   const quiz = exhibitions[index];
   img.src = quiz.image;
 
@@ -198,50 +198,35 @@
     const button = document.createElement("button");
     button.textContent = option;
 
-  button.onclick = () => {
-  const isCorrect = option === quiz.correctDisplay;
-  results.push(isCorrect);
-  button.disabled = true;
+    button.onclick = () => {
+      const isCorrect = option === quiz.correctDisplay;
+      results.push(isCorrect);
 
-  if (isCorrect) {
-    score++;
-    button.style.backgroundColor = "#e6f7ff";
-    button.style.color = "#006699";
-    button.style.borderColor = "#70c6f9";
-    button.textContent = "✅ Correct";
-    button.style.animation = "subtleBounce 300ms ease";
-  } else {
-    button.style.backgroundColor = "#f5f5f5";
-    button.style.color = "#999999";
-    button.style.borderColor = "#dddddd";
-    button.textContent = "❌ Incorrect";
-    button.style.animation = "gentleFade 400ms ease";
-  }
-
-  const allButtons = optionsContainer.querySelectorAll("button");
-  allButtons.forEach(btn => btn.disabled = true);
-
-  setTimeout(() => {
-    currentIndex++;
-    if (currentIndex < exhibitions.length) {
-      showQuiz(currentIndex);
-    } else {
-      showResults();
-    }
-  }, 1000);
-};
-
+      if (isCorrect) {
+        score++;
+        button.style.backgroundColor = "#e6f7ff";
+        button.style.color = "#006699";
+        button.style.borderColor = "#70c6f9";
+        button.textContent = "✅ Correct";
+        button.style.animation = "subtleBounce 300ms ease";
+      } else {
+        button.style.backgroundColor = "#f5f5f5";
+        button.style.color = "#999999";
+        button.style.borderColor = "#dddddd";
+        button.textContent = "❌ Incorrect";
+        button.style.animation = "gentleFade 400ms ease";
+      }
 
       const allButtons = optionsContainer.querySelectorAll("button");
       allButtons.forEach(btn => btn.disabled = true);
 
-      // Animate progress bar after answer
+      // Animate progress bar to next step
       setTimeout(() => {
         const progressPercent = ((index + 1) / exhibitions.length) * 100;
         progressFill.style.width = `${progressPercent}%`;
       }, 250);
 
-      // Move to next question
+      // Show next question or results
       setTimeout(() => {
         currentIndex++;
         if (currentIndex < exhibitions.length) {
