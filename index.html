@@ -176,6 +176,41 @@
       results.push(option === quiz.correctDisplay);
       button.disabled = true;
 
+      if (option === quiz.correctDisplay) {
+        button.style.backgroundColor = "#4CAF50";
+        button.style.color = "white";
+        button.textContent = "✅ Correct";
+        score++;
+      } else {
+        button.style.backgroundColor = "#f44336";
+        button.style.color = "white";
+        button.textContent = "❌ Incorrect";
+      }
+
+      const allButtons = optionsContainer.querySelectorAll("button");
+      allButtons.forEach(btn => btn.disabled = true);
+
+      // Animate progress bar after answer
+      setTimeout(() => {
+        const progressPercent = ((index + 1) / exhibitions.length) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+      }, 250);
+
+      // Move to next question
+      setTimeout(() => {
+        currentIndex++;
+        if (currentIndex < exhibitions.length) {
+          showQuiz(currentIndex);
+        } else {
+          showResults();
+        }
+      }, 1000);
+    };
+
+    optionsContainer.appendChild(button);
+  });
+}
+
   function showResults() {
   img.style.display = "none";
   optionsContainer.innerHTML = "";
