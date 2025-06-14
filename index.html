@@ -116,6 +116,26 @@
   100% { opacity: 1; }
 }
 
+    @keyframes shrinkBounce {
+  0% {
+    transform: scale(1);
+    width: auto;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.button-shrink {
+  transition: all 300ms ease;
+  animation: shrinkBounce 300ms ease;
+  padding: 0.4rem 0.75rem; /* tighter for smaller pill */
+}
+
+
     .email-link {
   color: #70c6f9;
   text-decoration: none;
@@ -205,43 +225,40 @@ function showQuiz(index) {
     const button = document.createElement("button");
     button.textContent = option;
 
-    button.onclick = () => {
-      const isCorrect = option === quiz.correctDisplay;
-      results.push(isCorrect);
+button.onclick = () => {
+  const isCorrect = option === quiz.correctDisplay;
+  results.push(isCorrect);
 
-      if (isCorrect) {
-  score++;
-  button.innerHTML = "⭐ " + quiz.correctDisplay;
-  button.style.backgroundColor = "#e6f7ff";
-  button.style.color = "#006699";
-  button.style.borderColor = "#70c6f9";
-  button.style.animation = "subtleBounce 300ms ease";
-} else {
-  button.innerHTML = "🚫 " + option;
-  button.style.backgroundColor = "#f5f5f5";
-  button.style.color = "#999999";
-  button.style.borderColor = "#dddddd";
-  button.style.animation = "gentleFade 400ms ease";
-}
-      const allButtons = optionsContainer.querySelectorAll("button");
-      allButtons.forEach(btn => btn.disabled = true);
+  // Disable all buttons
+  const allButtons = optionsContainer.querySelectorAll("button");
+  allButtons.forEach(btn => btn.disabled = true);
 
-      // Animate progress bar to next step
-      setTimeout(() => {
-        const progressPercent = ((index + 1) / exhibitions.length) * 100;
-        progressFill.style.width = `${progressPercent}%`;
-      }, 250);
+  if (isCorrect) {
+    score++;
+    button.innerHTML = "⭐";
+    button.classList.add("button-shrink");
+    button.style.backgroundColor = "#e6f7ff";
+    button.style.color = "#006699";
+    button.style.borderColor = "#70c6f9";
+  } else {
+    button.innerHTML = "❌";
+    button.classList.add("button-shrink");
+    button.style.backgroundColor = "#f5f5f5";
+    button.style.color = "#999999";
+    button.style.borderColor = "#dddddd";
+  }
 
-      // Show next question or results
-      setTimeout(() => {
-        currentIndex++;
-        if (currentIndex < exhibitions.length) {
-          showQuiz(currentIndex);
-        } else {
-          showResults();
-        }
-      }, 1000);
-    };
+  // Proceed after short delay
+  setTimeout(() => {
+    currentIndex++;
+    if (currentIndex < exhibitions.length) {
+      showQuiz(currentIndex);
+    } else {
+      showResults();
+    }
+  }, 1000);
+};
+
 
     optionsContainer.appendChild(button);
   });
