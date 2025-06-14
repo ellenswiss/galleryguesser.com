@@ -158,35 +158,52 @@
   }
 
   function showQuiz(index) {
-    const quiz = exhibitions[index];
-    img.src = quiz.image;
+  const quiz = exhibitions[index];
+  img.src = quiz.image;
 
-    // Update progress bar
+  // Update progress bar immediately (starting empty)
   const progressFill = document.getElementById("progress-fill");
-setTimeout(() => {
-  currentIndex++;
-
-  // Update progress bar AFTER the question is answered
-  const progressFill = document.getElementById("progress-fill");
-  const progressPercent = (currentIndex / exhibitions.length) * 100;
+  const progressPercent = (index / exhibitions.length) * 100;
   progressFill.style.width = `${progressPercent}%`;
-
-  if (currentIndex < exhibitions.length) {
-    showQuiz(currentIndex);
-  } else {
-    showResults();
-  }
-}, 1000);
-
 
   optionsContainer.innerHTML = "";
 
-    shuffle(quiz.options).forEach(option => {
-      const button = document.createElement("button");
-      button.textContent = option;
-      button.onclick = () => {
-  results.push(option === quiz.correctDisplay);
-  button.disabled = true;
+  shuffle(quiz.options).forEach(option => {
+    const button = document.createElement("button");
+    button.textContent = option;
+
+    button.onclick = () => {
+      results.push(option === quiz.correctDisplay);
+      button.disabled = true;
+
+      if (option === quiz.correctDisplay) {
+        button.style.backgroundColor = "#4CAF50";
+        button.style.color = "white";
+        button.textContent = "✅ Correct";
+        score++;
+      } else {
+        button.style.backgroundColor = "#f44336";
+        button.style.color = "white";
+        button.textContent = "❌ Incorrect";
+      }
+
+      const allButtons = optionsContainer.querySelectorAll("button");
+      allButtons.forEach(btn => btn.disabled = true);
+
+      // Delay and advance after answer
+      setTimeout(() => {
+        currentIndex++;
+        if (currentIndex < exhibitions.length) {
+          showQuiz(currentIndex);
+        } else {
+          showResults();
+        }
+      }, 1000);
+    };
+
+    optionsContainer.appendChild(button);
+  });
+}
 
   if (option === quiz.correctDisplay) {
     button.style.backgroundColor = "#4CAF50"; // green
@@ -212,9 +229,6 @@ setTimeout(() => {
     }
   }, 1000);
 };
-button.onclick = () => {
-  results.push(option === quiz.correctDisplay);
-  button.disabled = true;
 
   if (option === quiz.correctDisplay) {
     button.style.backgroundColor = "#4CAF50"; // green
