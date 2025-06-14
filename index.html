@@ -211,13 +211,13 @@ function showQuiz(index) {
 
       if (isCorrect) {
   score++;
-  button.innerHTML = "✅ " + quiz.correctDisplay;
+  button.innerHTML = "⭐ " + quiz.correctDisplay;
   button.style.backgroundColor = "#e6f7ff";
   button.style.color = "#006699";
   button.style.borderColor = "#70c6f9";
   button.style.animation = "subtleBounce 300ms ease";
 } else {
-  button.innerHTML = "❌ " + option;
+  button.innerHTML = "🚫 " + option;
   button.style.backgroundColor = "#f5f5f5";
   button.style.color = "#999999";
   button.style.borderColor = "#dddddd";
@@ -256,7 +256,7 @@ document.querySelector(".tagline").innerHTML = `
   <span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>
 `;
 
-  const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+  const summaryBoxes = results.map(correct => correct ? "⭐" : "🚫").join(" ");
   const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
 
   const summaryDiv = document.createElement("div");
