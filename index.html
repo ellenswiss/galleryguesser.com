@@ -82,6 +82,23 @@
   align-items: center;
 }
 
+    #progress-bar {
+  position: relative;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #70c6f9;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+
 
     .email-link {
   color: #70c6f9;
@@ -110,8 +127,8 @@
   
   <div id="quiz-container">
     
-<div id="progress-bar" style="position: relative; height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 1.5rem;">
-  <div id="progress-fill" style="height: 100%; width: 0%; background: #70c6f9; border-radius: 4px;"></div>
+<div id="progress-bar">
+  <div id="progress-fill"></div>
 </div>
 
     <img id="quiz-image" src="" alt="Exhibition image">
