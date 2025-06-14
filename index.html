@@ -112,7 +112,6 @@
     
 <div id="progress-bar" style="position: relative; height: 8px; background: #e0e0e0; border-radius: 4px; margin-bottom: 1.5rem;">
   <div id="progress-fill" style="height: 100%; width: 0%; background: #70c6f9; border-radius: 4px;"></div>
-  <div id="progress-count" style="position: absolute; top: -22px; right: 0; font-size: 0.9rem; color: #888;"></div>
 </div>
 
     <img id="quiz-image" src="" alt="Exhibition image">
@@ -166,10 +165,6 @@
   const progressFill = document.getElementById("progress-fill");
   const progressPercent = ((index + 1) / exhibitions.length) * 100;
   progressFill.style.width = `${progressPercent}%`;
-
-  // Update progress count (e.g., 1/5)
-  const progressCount = document.getElementById("progress-count");
-  progressCount.textContent = `${index + 1}/${exhibitions.length}`;
 
   optionsContainer.innerHTML = "";
 
