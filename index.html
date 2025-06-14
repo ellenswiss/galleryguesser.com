@@ -163,8 +163,21 @@
 
     // Update progress bar
   const progressFill = document.getElementById("progress-fill");
-  const progressPercent = ((index + 1) / exhibitions.length) * 100;
+setTimeout(() => {
+  currentIndex++;
+
+  // Update progress bar AFTER the question is answered
+  const progressFill = document.getElementById("progress-fill");
+  const progressPercent = (currentIndex / exhibitions.length) * 100;
   progressFill.style.width = `${progressPercent}%`;
+
+  if (currentIndex < exhibitions.length) {
+    showQuiz(currentIndex);
+  } else {
+    showResults();
+  }
+}, 1000);
+
 
   optionsContainer.innerHTML = "";
 
