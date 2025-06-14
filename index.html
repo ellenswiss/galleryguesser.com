@@ -201,23 +201,39 @@
     const button = document.createElement("button");
     button.textContent = option;
 
-    button.onclick = () => {
-      results.push(option === quiz.correctDisplay);
-      button.disabled = true;
+  button.onclick = () => {
+  const isCorrect = option === quiz.correctDisplay;
+  results.push(isCorrect);
+  button.disabled = true;
 
-      if (option === quiz.correctDisplay) {
-  button.style.backgroundColor = "#e6f7ff";
-  button.style.color = "#006699";
-  button.style.borderColor = "#70c6f9";
-  button.textContent = "✅ Correct";
-  button.style.animation = "subtleBounce 300ms ease";
-} else {
-  button.style.backgroundColor = "#f5f5f5";
-  button.style.color = "#999999";
-  button.style.borderColor = "#dddddd";
-  button.textContent = "❌ Incorrect";
-  button.style.animation = "gentleFade 400ms ease";
-}
+  if (isCorrect) {
+    score++;
+    button.style.backgroundColor = "#e6f7ff";
+    button.style.color = "#006699";
+    button.style.borderColor = "#70c6f9";
+    button.textContent = "✅ Correct";
+    button.style.animation = "subtleBounce 300ms ease";
+  } else {
+    button.style.backgroundColor = "#f5f5f5";
+    button.style.color = "#999999";
+    button.style.borderColor = "#dddddd";
+    button.textContent = "❌ Incorrect";
+    button.style.animation = "gentleFade 400ms ease";
+  }
+
+  const allButtons = optionsContainer.querySelectorAll("button");
+  allButtons.forEach(btn => btn.disabled = true);
+
+  setTimeout(() => {
+    currentIndex++;
+    if (currentIndex < exhibitions.length) {
+      showQuiz(currentIndex);
+    } else {
+      showResults();
+    }
+  }, 1000);
+};
+
 
       const allButtons = optionsContainer.querySelectorAll("button");
       allButtons.forEach(btn => btn.disabled = true);
