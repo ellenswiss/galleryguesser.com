@@ -199,7 +199,35 @@ setTimeout(() => {
     button.textContent = "❌ Incorrect";
   }
 
-  // Disable all other buttons too
+  // Disable all other buttons
+  const allButtons = optionsContainer.querySelectorAll("button");
+  allButtons.forEach(btn => btn.disabled = true);
+
+  setTimeout(() => {
+    currentIndex++;
+    if (currentIndex < exhibitions.length) {
+      showQuiz(currentIndex);
+    } else {
+      showResults();
+    }
+  }, 1000);
+};
+button.onclick = () => {
+  results.push(option === quiz.correctDisplay);
+  button.disabled = true;
+
+  if (option === quiz.correctDisplay) {
+    button.style.backgroundColor = "#4CAF50"; // green
+    button.style.color = "white";
+    button.textContent = "✅ Correct";
+    score++;
+  } else {
+    button.style.backgroundColor = "#f44336"; // red
+    button.style.color = "white";
+    button.textContent = "❌ Incorrect";
+  }
+
+  // Disable all other buttons
   const allButtons = optionsContainer.querySelectorAll("button");
   allButtons.forEach(btn => btn.disabled = true);
 
