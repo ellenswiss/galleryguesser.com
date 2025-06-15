@@ -5,20 +5,15 @@
   <meta charset="UTF-8">
   <title>Gallery Guesser</title>
   <meta name="description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
-
-  <!-- Open Graph -->
   <meta property="og:title" content="Gallery Guesser" />
   <meta property="og:description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
   <meta property="og:image" content="https://galleryguesser.com/og-image.jpg" />
   <meta property="og:url" content="https://galleryguesser.com" />
   <meta property="og:type" content="website" />
-
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Gallery Guesser" />
   <meta name="twitter:description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
   <meta name="twitter:image" content="https://galleryguesser.com/og-image.jpg" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     @font-face {
@@ -28,7 +23,6 @@
       font-style: normal;
       font-display: swap;
     }
-
     body {
       font-family: sans-serif;
       padding: 2rem;
@@ -36,24 +30,20 @@
       margin: auto;
       text-align: center;
     }
-
     h2 {
       font-size: 1.25rem;
       letter-spacing: 0.05em;
       font-family: 'Theinhardt', sans-serif;
     }
-
     img {
       max-width: 100%;
       height: auto;
       margin-bottom: 1rem;
     }
-
     .tagline {
       font-size: 1rem;
       margin-bottom: 1.5rem;
     }
-
     #progress-bar {
       position: relative;
       height: 8px;
@@ -61,7 +51,6 @@
       border-radius: 4px;
       margin-bottom: 1.5rem;
     }
-
     #progress-fill {
       height: 100%;
       width: 0%;
@@ -69,20 +58,17 @@
       border-radius: 4px;
       transition: width 0.5s ease;
     }
-
     .columns {
-  display: flex;
-  justify-content: space-between;
-  gap: 3rem; /* wider for better line clarity */
-  position: relative;
-  z-index: 2;
-  padding: 1rem 0;
-}
-
+      display: flex;
+      justify-content: space-between;
+      gap: 3rem;
+      position: relative;
+      z-index: 2;
+      padding: 1rem 0;
+    }
     .column {
       flex: 1;
     }
-
     button {
       margin: 0.5rem 0;
       padding: 0.5rem 1rem;
@@ -94,19 +80,16 @@
       color: #70c6f9;
       width: 100%;
     }
-
     @media (hover: hover) and (pointer: fine) {
       button:hover {
         background-color: #70c6f9;
         color: white;
       }
     }
-
     .email-link {
       color: #70c6f9;
       text-decoration: none;
     }
-
     .email-link:hover {
       text-decoration: underline;
     }
@@ -119,15 +102,15 @@
     <div id="progress-bar"><div id="progress-fill"></div></div>
     <img id="quiz-image" src="" alt="Exhibition image">
     <div id="match-wrapper" style="position: relative;">
-  <svg id="connector" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;">
-    <line id="match-line" x1="0" y1="0" x2="0" y2="0" stroke="#70c6f9" stroke-width="3" stroke-linecap="round" visibility="hidden"/>
-  </svg>
-  <div class="columns">
-    <div class="column" id="artist-options"></div>
-    <div class="column" id="gallery-options"></div>
+      <svg id="connector" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;">
+        <line id="match-line" x1="0" y1="0" x2="0" y2="0" stroke="#70c6f9" stroke-width="3" stroke-linecap="round" visibility="hidden"/>
+      </svg>
+      <div class="columns">
+        <div class="column" id="artist-options"></div>
+        <div class="column" id="gallery-options"></div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
   <script src="data-match.js?v=1"></script>
   <script>
@@ -149,29 +132,17 @@
       const quiz = exhibitions[index];
       img.src = quiz.image;
 
-      // Reset selections
       selectedArtist = null;
       selectedGallery = null;
 
-      const progressPercent = (index / exhibitions.length) * 100;
-      document.getElementById("progress-fill").style.width = `${progressPercent}%`;
-
+      document.getElementById("progress-fill").style.width = `${(index / exhibitions.length) * 100}%`;
       artistContainer.innerHTML = "";
       galleryContainer.innerHTML = "";
 
-      const allArtists = shuffle([
-        quiz.artist,
-        ...exhibitions
-          .filter(e => e.artist !== quiz.artist)
-          .map(e => e.artist)
-      ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4));
-
-      const allGalleries = shuffle([
-        quiz.gallery,
-        ...exhibitions
-          .filter(e => e.gallery !== quiz.gallery)
-          .map(e => e.gallery)
-      ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4));
+      const allArtists = shuffle([quiz.artist, ...exhibitions.filter(e => e.artist !== quiz.artist).map(e => e.artist)])
+        .filter((v, i, a) => a.indexOf(v) === i).slice(0, 4);
+      const allGalleries = shuffle([quiz.gallery, ...exhibitions.filter(e => e.gallery !== quiz.gallery).map(e => e.gallery)])
+        .filter((v, i, a) => a.indexOf(v) === i).slice(0, 4);
 
       allArtists.forEach(name => {
         const button = document.createElement("button");
@@ -194,122 +165,79 @@
       });
     }
 
-   function finalizeIfReady() {
-  if (!selectedArtist || !selectedGallery) return;
+    function finalizeIfReady() {
+      if (!selectedArtist || !selectedGallery) return;
 
-  const quiz = exhibitions[currentIndex];
-  const isCorrect = (selectedArtist === quiz.artist && selectedGallery === quiz.gallery);
-  results.push(isCorrect);
-  if (isCorrect) score++;
+      const quiz = exhibitions[currentIndex];
+      const isCorrect = (selectedArtist === quiz.artist && selectedGallery === quiz.gallery);
+      results.push(isCorrect);
+      if (isCorrect) score++;
 
-  // Disable all buttons
-  document.querySelectorAll("button").forEach(b => b.disabled = true);
+      document.querySelectorAll("button").forEach(b => b.disabled = true);
 
-  // Get selected buttons
-  const artistBtn = Array.from(document.querySelectorAll("#artist-options button"))
-    .find(btn => btn.textContent === selectedArtist);
-  const galleryBtn = Array.from(document.querySelectorAll("#gallery-options button"))
-    .find(btn => btn.textContent === selectedGallery);
+      const artistBtn = [...document.querySelectorAll("#artist-options button")].find(btn => btn.textContent === selectedArtist);
+      const galleryBtn = [...document.querySelectorAll("#gallery-options button")].find(btn => btn.textContent === selectedGallery);
 
-  if (artistBtn && galleryBtn) {
-    const artistRect = artistBtn.getBoundingClientRect();
-    const galleryRect = galleryBtn.getBoundingClientRect();
-    const wrapperRect = document.getElementById("match-wrapper").getBoundingClientRect();
+      if (artistBtn && galleryBtn) {
+        const aRect = artistBtn.getBoundingClientRect();
+        const gRect = galleryBtn.getBoundingClientRect();
+        const wrapRect = document.getElementById("match-wrapper").getBoundingClientRect();
+        const line = document.getElementById("match-line");
 
-    const line = document.getElementById("match-line");
-    line.setAttribute("x1", artistRect.right - wrapperRect.left);
-    line.setAttribute("y1", artistRect.top + artistRect.height / 2 - wrapperRect.top);
-    line.setAttribute("x2", galleryRect.left - wrapperRect.left);
-    line.setAttribute("y2", galleryRect.top + galleryRect.height / 2 - wrapperRect.top);
-    line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
-    line.setAttribute("visibility", "visible");
-  }
+        line.setAttribute("x1", aRect.right - wrapRect.left);
+        line.setAttribute("y1", aRect.top + aRect.height / 2 - wrapRect.top);
+        line.setAttribute("x2", gRect.left - wrapRect.left);
+        line.setAttribute("y2", gRect.top + gRect.height / 2 - wrapRect.top);
+        line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
+        line.setAttribute("visibility", "visible");
+      }
 
-  // Style both selected buttons
-  const selectedStyle = (btn, correct) => {
-    btn.innerHTML = correct ? "✅" : "❌";
-    btn.classList.add("button-shrink");
-    btn.style.backgroundColor = correct ? "#e6f7ff" : "#f5f5f5";
-    btn.style.color = correct ? "#006699" : "#999999";
-    btn.style.borderColor = correct ? "#70c6f9" : "#dddddd";
-  };
+      const styleBtn = (btn, correct) => {
+        btn.innerHTML = correct ? "✅" : "❌";
+        btn.classList.add("button-shrink");
+        btn.style.backgroundColor = correct ? "#e6f7ff" : "#f5f5f5";
+        btn.style.color = correct ? "#006699" : "#999";
+        btn.style.borderColor = correct ? "#70c6f9" : "#ddd";
+      };
 
-  selectedStyle(artistBtn, selectedArtist === quiz.artist);
-  selectedStyle(galleryBtn, selectedGallery === quiz.gallery);
+      styleBtn(artistBtn, selectedArtist === quiz.artist);
+      styleBtn(galleryBtn, selectedGallery === quiz.gallery);
 
-  setTimeout(() => {
-    // Clear line
-    document.getElementById("match-line").setAttribute("visibility", "hidden");
-
-    // Load next
-    currentIndex++;
-    if (currentIndex < exhibitions.length) {
-      showQuiz(currentIndex);
-    } else {
-      showResults();
+      setTimeout(() => {
+        document.getElementById("match-line").setAttribute("visibility", "hidden");
+        currentIndex++;
+        if (currentIndex < exhibitions.length) {
+          showQuiz(currentIndex);
+        } else {
+          showResults();
+        }
+      }, 1000);
     }
-  }, 1000);
-}
-
-
-  // Proceed to next question
-  setTimeout(() => {
-    currentIndex++;
-    if (currentIndex < exhibitions.length) {
-      showQuiz(currentIndex);
-    } else {
-      showResults();
-    }
-  }, 1000);
-}
-
 
     function showResults() {
       img.style.display = "none";
-      artistContainer.innerHTML = "";
-      galleryContainer.innerHTML = "";
       document.getElementById("progress-bar").style.display = "none";
+      document.querySelector(".columns").innerHTML = "";
 
-      document.querySelector(".tagline").innerHTML = `
-        <span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>
-      `;
+      document.querySelector(".tagline").innerHTML = `<span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>`;
 
-      const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+      const summaryBoxes = results.map(c => c ? "🟩" : "🟥").join(" ");
       const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
 
-      const summaryDiv = document.createElement("div");
-      summaryDiv.style.marginTop = "2rem";
-      summaryDiv.innerHTML = `
+      const resultWrapper = document.createElement("div");
+      resultWrapper.style.textAlign = "center";
+      resultWrapper.style.marginTop = "2rem";
+      resultWrapper.innerHTML = `
         <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
         <p style="font-weight: bold; margin-bottom: 0.5rem;">${summaryText}</p>
-        <button onclick="navigator.clipboard.writeText('${summaryText}').then(() => alert('Copied to clipboard!'));">
-          Tell Friends
-        </button>
+        <button onclick="navigator.clipboard.writeText('${summaryText}').then(() => alert('Copied to clipboard!'));">Tell Friends</button>
+        <div style="font-size: 0.9rem; margin-top: 2rem;">
+          <p>Questions or feedback? <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a></p>
+        </div>
       `;
-
-// Clear columns completely and add results to the main container
-const columns = document.querySelector(".columns");
-columns.innerHTML = ""; // clears artist + gallery buttons
-
-const resultWrapper = document.createElement("div");
-resultWrapper.style.textAlign = "center";
-resultWrapper.style.marginTop = "2rem";
-
-resultWrapper.innerHTML = `
-  <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
-  <p style="font-weight: bold; margin-bottom: 0.5rem;">${summaryText}</p>
-  <button onclick="navigator.clipboard.writeText('${summaryText}').then(() => alert('Copied to clipboard!'));">
-    Tell Friends
-  </button>
-  <div style="font-size: 0.9rem; margin-top: 2rem;">
-    <p>Questions or feedback? <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a></p>
-  </div>
-`;
-
-columns.appendChild(resultWrapper);
+      document.querySelector(".columns").appendChild(resultWrapper);
     }
 
-    // Start game
     showQuiz(currentIndex);
   </script>
 </body>
