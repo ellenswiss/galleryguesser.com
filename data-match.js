@@ -1,3 +1,5 @@
+console.log("data-match.js loaded ✅");
+
 const exhibitions = [
   {
     image: "https://images.seesawmap.com/unsafe/filters:quality(95):format(jpeg)/https%3A//seesaw-photos.s3.amazonaws.com/_wSN2htOSAIAMiDG0qKbgg",
