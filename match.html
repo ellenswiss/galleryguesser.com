@@ -31,9 +31,10 @@
       text-align: center;
     }
     h2 {
+      font-family: 'Theinhardt', sans-serif;
       font-size: 1.25rem;
       letter-spacing: 0.05em;
-      font-family: 'Theinhardt', sans-serif;
+      margin-bottom: 1.5rem;
     }
     img {
       max-width: 100%;
@@ -102,7 +103,7 @@
   </style>
 </head>
 <body>
-  <h2>GALLERY GUESSER</h2>
+  <h2 style="font-family: 'Theinhardt', sans-serif; font-size: 1.25rem; letter-spacing: 0.05em;">GALLERY GUESSER</h2>
   <div class="tagline"></div>
   <div id="quiz-container">
     <div id="progress-bar"><div id="progress-fill"></div></div>
@@ -119,9 +120,174 @@
   </div>
   <script src="data-match.js?v=1"></script>
   <script>
-    // All your JavaScript code goes here...
-    // This placeholder indicates the JS section should be pasted from your working version
-    // It should include the updated showQuiz(), finalizeIfReady(), maybeDrawLine(), showResults(), and shareResult() functions
+    let currentIndex = 0;
+    let score = 0;
+    let results = [];
+    let selectedArtist = null;
+    let selectedGallery = null;
+
+    const img = document.getElementById("quiz-image");
+    const artistContainer = document.getElementById("artist-options");
+    const galleryContainer = document.getElementById("gallery-options");
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function showQuiz(index) {
+      const quiz = exhibitions[index];
+      img.src = quiz.image;
+
+      selectedArtist = null;
+      selectedGallery = null;
+
+      const progressPercent = (index / exhibitions.length) * 100;
+      document.getElementById("progress-fill").style.width = `${progressPercent}%`;
+
+      artistContainer.innerHTML = "";
+      galleryContainer.innerHTML = "";
+
+      const allArtists = shuffle([
+        quiz.artist,
+        ...exhibitions
+          .filter(e => e.artist !== quiz.artist)
+          .map(e => e.artist)
+      ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4));
+
+      const allGalleries = shuffle([
+        quiz.gallery,
+        ...exhibitions
+          .filter(e => e.gallery !== quiz.gallery)
+          .map(e => e.gallery)
+      ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4));
+
+      allArtists.forEach(name => {
+        const button = document.createElement("button");
+        button.textContent = name;
+        button.onclick = () => {
+          if (selectedArtist === name) {
+            selectedArtist = null;
+            button.classList.remove("selected");
+          } else {
+            selectedArtist = name;
+            document.querySelectorAll("#artist-options button").forEach(b => b.classList.remove("selected"));
+            button.classList.add("selected");
+          }
+          finalizeIfReady();
+        };
+        artistContainer.appendChild(button);
+      });
+
+      allGalleries.forEach(name => {
+        const button = document.createElement("button");
+        button.textContent = name;
+        button.onclick = () => {
+          if (selectedGallery === name) {
+            selectedGallery = null;
+            button.classList.remove("selected");
+          } else {
+            selectedGallery = name;
+            document.querySelectorAll("#gallery-options button").forEach(b => b.classList.remove("selected"));
+            button.classList.add("selected");
+          }
+          finalizeIfReady();
+        };
+        galleryContainer.appendChild(button);
+      });
+    }
+
+    function finalizeIfReady() {
+      if (!selectedArtist || !selectedGallery) return;
+
+      const quiz = exhibitions[currentIndex];
+      const isCorrect = (selectedArtist === quiz.artist && selectedGallery === quiz.gallery);
+      results.push(isCorrect);
+      if (isCorrect) score++;
+
+      document.querySelectorAll("button").forEach(b => b.disabled = true);
+
+      const artistBtn = Array.from(document.querySelectorAll("#artist-options button"))
+        .find(btn => btn.textContent === selectedArtist);
+      const galleryBtn = Array.from(document.querySelectorAll("#gallery-options button"))
+        .find(btn => btn.textContent === selectedGallery);
+
+      if (artistBtn && galleryBtn) {
+        const artistRect = artistBtn.getBoundingClientRect();
+        const galleryRect = galleryBtn.getBoundingClientRect();
+        const wrapperRect = document.getElementById("match-wrapper").getBoundingClientRect();
+
+        const line = document.getElementById("match-line");
+        line.setAttribute("x1", artistRect.right - wrapperRect.left);
+        line.setAttribute("y1", artistRect.top + artistRect.height / 2 - wrapperRect.top);
+        line.setAttribute("x2", galleryRect.left - wrapperRect.left);
+        line.setAttribute("y2", galleryRect.top + galleryRect.height / 2 - wrapperRect.top);
+        line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
+        line.setAttribute("visibility", "visible");
+      }
+
+      setTimeout(() => {
+        document.getElementById("match-line").setAttribute("visibility", "hidden");
+        currentIndex++;
+        if (currentIndex < exhibitions.length) {
+          showQuiz(currentIndex);
+        } else {
+          showResults();
+        }
+      }, 1000);
+    }
+
+    function showResults() {
+      img.style.display = "none";
+      artistContainer.innerHTML = "";
+      galleryContainer.innerHTML = "";
+      document.getElementById("progress-bar").style.display = "none";
+
+      document.querySelector(".tagline").innerHTML = `
+        <span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>
+      `;
+
+      const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+      const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+
+      const summaryDiv = document.createElement("div");
+      summaryDiv.style.marginTop = "2rem";
+      summaryDiv.innerHTML = `
+        <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
+        <p style="font-weight: bold; margin-bottom: 0.75rem;">${summaryText}</p>
+        <button
+          onclick="shareResult()"
+          style="display: inline-block; margin-top: 0.25rem; padding: 0.5rem 1rem; border: 2px solid #70c6f9; border-radius: 999px; background: white; color: #70c6f9; font-size: 1rem; cursor: pointer;">
+          Tell Friends
+        </button>
+        <div style="font-size: 0.9rem; margin-top: 2rem;">
+          <p>Questions or feedback? <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a></p>
+        </div>
+      `;
+
+      document.querySelector(".columns").innerHTML = "";
+      document.querySelector(".columns").appendChild(summaryDiv);
+    }
+
+    function shareResult() {
+      const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+      const text = `${summaryBoxes}\n\nI got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: "Gallery Guesser",
+          text: text,
+          url: "https://galleryguesser.com"
+        }).catch((err) => {
+          console.error("Share failed:", err);
+        });
+      } else {
+        navigator.clipboard.writeText(text).then(() => {
+          alert("Copied to clipboard! You can now paste it anywhere.");
+        });
+      }
+    }
+
+    showQuiz(currentIndex);
   </script>
 </body>
 </html>
