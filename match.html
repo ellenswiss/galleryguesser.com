@@ -145,10 +145,12 @@
       artistContainer.innerHTML = "";
       galleryContainer.innerHTML = "";
 
-      const allArtists = shuffle([quiz.artist, ...exhibitions.filter(e => e.artist !== quiz.artist).map(e => e.artist)])
-        .filter((v, i, a) => a.indexOf(v) === i).slice(0, 4);
-      const allGalleries = shuffle([quiz.gallery, ...exhibitions.filter(e => e.gallery !== quiz.gallery).map(e => e.gallery)])
-        .filter((v, i, a) => a.indexOf(v) === i).slice(0, 4);
+      const artistPool = [...new Set(exhibitions.map(e => e.artist))].filter(name => name !== quiz.artist);
+      const allArtists = shuffle([quiz.artist, ...shuffle(artistPool).slice(0, 3)]);
+
+      const galleryPool = [...new Set(exhibitions.map(e => e.gallery))].filter(name => name !== quiz.gallery);
+      const allGalleries = shuffle([quiz.gallery, ...shuffle(galleryPool).slice(0, 3)]);
+
 
       allArtists.forEach(name => {
         const button = document.createElement("button");
