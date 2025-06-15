@@ -55,7 +55,7 @@
     #progress-fill {
       height: 100%;
       width: 0%;
-      background: #70c6f9;
+      background: blue;
       border-radius: 4px;
       transition: width 0.5s ease;
     }
@@ -75,26 +75,26 @@
       padding: 0.5rem 1rem;
       font-size: 1rem;
       cursor: pointer;
-      border: 2px solid #70c6f9;
+      border: 2px solid blue;
       border-radius: 999px;
       background-color: white;
-      color: #70c6f9;
+      color: blue;
       width: 100%;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
     button.selected {
-      background-color: #70c6f9;
+      background-color: blue;
       color: white;
-      border-color: #70c6f9;
+      border-color: blue;
     }
     @media (hover: hover) and (pointer: fine) {
       button:hover {
-        background-color: #70c6f9;
+        background-color: blue;
         color: white;
       }
     }
     .email-link {
-      color: #70c6f9;
+      color: blue;
       text-decoration: none;
     }
     .email-link:hover {
@@ -110,7 +110,7 @@
     <img id="quiz-image" src="" alt="Exhibition image">
     <div id="match-wrapper" style="position: relative;">
       <svg id="connector" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;">
-        <line id="match-line" x1="0" y1="0" x2="0" y2="0" stroke="#70c6f9" stroke-width="3" stroke-linecap="round" visibility="hidden"/>
+        <line id="match-line" x1="0" y1="0" x2="0" y2="0" stroke="blue" stroke-width="3" stroke-linecap="round" visibility="hidden"/>
       </svg>
       <div class="columns">
         <div class="column" id="artist-options"></div>
