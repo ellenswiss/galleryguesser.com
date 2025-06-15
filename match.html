@@ -55,7 +55,7 @@
     #progress-fill {
       height: 100%;
       width: 0%;
-      background: #ccc;
+      background: #70c6f9;
       border-radius: 4px;
       transition: width 0.5s ease;
     }
@@ -75,26 +75,26 @@
       padding: 0.5rem 1rem;
       font-size: 1rem;
       cursor: pointer;
-      border: 2px solid #ccc;
+      border: 2px solid #70c6f9;
       border-radius: 999px;
       background-color: white;
-      color: #ccc;
+      color: #70c6f9;
       width: 100%;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
     button.selected {
-      background-color: #ccc;
+      background-color: #70c6f9;
       color: white;
-      border-color: #ccc;
+      border-color: #70c6f9;
     }
     @media (hover: hover) and (pointer: fine) {
       button:hover {
-        background-color: #ccc;
+        background-color: #70c6f9;
         color: white;
       }
     }
     .email-link {
-      color: #ccc;
+      color: #70c6f9;
       text-decoration: none;
     }
     .email-link:hover {
@@ -110,7 +110,7 @@
     <img id="quiz-image" src="" alt="Exhibition image">
     <div id="match-wrapper" style="position: relative;">
       <svg id="connector" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;">
-        <line id="match-line" x1="0" y1="0" x2="0" y2="0" stroke="#ccc" stroke-width="3" stroke-linecap="round" visibility="hidden"/>
+        <line id="match-line" x1="0" y1="0" x2="0" y2="0" stroke="#70c6f9" stroke-width="3" stroke-linecap="round" visibility="hidden"/>
       </svg>
       <div class="columns">
         <div class="column" id="artist-options"></div>
@@ -221,7 +221,7 @@
         line.setAttribute("y1", artistRect.top + artistRect.height / 2 - wrapperRect.top);
         line.setAttribute("x2", galleryRect.left - wrapperRect.left);
         line.setAttribute("y2", galleryRect.top + galleryRect.height / 2 - wrapperRect.top);
-        line.setAttribute("stroke", isCorrect ? "#ccc" : "#999");
+        line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
         line.setAttribute("visibility", "visible");
       }
 
@@ -256,7 +256,7 @@
         <p style="font-weight: bold; margin-bottom: 0.75rem;">${summaryText}</p>
         <button
           onclick="shareResult()"
-          style="display: inline-block; margin-top: 0.25rem; padding: 0.5rem 1rem; border: 2px solid #ccc; border-radius: 999px; background: white; color: #ccc; font-size: 1rem; cursor: pointer;">
+          style="display: inline-block; margin-top: 0.25rem; padding: 0.5rem 1rem; border: 2px solid #70c6f9; border-radius: 999px; background: white; color: #70c6f9; font-size: 1rem; cursor: pointer;">
           Tell Friends
         </button>
       `;
