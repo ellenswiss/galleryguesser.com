@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="favicon.png" type="image/png">
   <meta charset="UTF-8">
-  <title>Gallery Guesser – Match</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gallery Guesser</title>
 
+  <meta name="description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gallery Guesser" />
+  <meta property="og:description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
+  <meta property="og:image" content="https://galleryguesser.com/og-image.jpg" />
+  <meta property="og:url" content="https://galleryguesser.com" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gallery Guesser" />
+  <meta name="twitter:description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
+  <meta name="twitter:image" content="https://galleryguesser.com/og-image.jpg" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    @font-face {
+      font-family: 'Theinhardt';
+      src: url('Theinhardt-Regular.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
     body {
-      font-family: sans-serif;
+      font-family: 'Theinhardt', sans-serif;
       padding: 2rem;
       max-width: 600px;
       margin: auto;
       text-align: center;
     }
 
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
+    h2 {
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
     }
 
-    #quiz-image {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 1rem;
-    }
-
-    #columns {
+    #match-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 1rem;
+      margin-top: 2rem;
     }
 
     .column {
@@ -38,137 +56,80 @@
       width: 45%;
     }
 
-    .match-button {
-      padding: 0.5rem 1rem;
+    .match-option {
+      padding: 0.75rem 1rem;
       border: 2px solid #70c6f9;
       border-radius: 999px;
       background-color: white;
       color: #70c6f9;
       cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: center;
+      transition: background-color 0.2s, color 0.2s;
     }
 
-    .match-button.selected {
-      background-color: #e6f7ff;
-      border-color: #70c6f9;
-      color: #006699;
+    .match-option:hover {
+      background-color: #70c6f9;
+      color: white;
     }
 
-    .match-feedback.correct {
-      color: #70c6f9;
-      font-weight: bold;
-      margin-top: 1rem;
+    .tagline {
+      font-size: 1rem;
+      font-weight: normal;
+      margin-bottom: 1.5rem;
     }
 
-    .match-feedback.wrong {
-      color: #aaa;
-      margin-top: 1rem;
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
 <body>
-  <h1>GALLERY GUESSER – MATCH</h1>
-  <img id="quiz-image" src="" alt="Exhibition image">
-  <div id="options"></div>
+  <h2>GALLERY GUESSER</h2>
+  <div class="tagline">Match the artist to the venue.</div>
 
-  <script src="data-match.js"></script>
+  <div id="match-container">
+    <div class="column" id="artist-column"></div>
+    <div class="column" id="venue-column"></div>
+  </div>
+
+  <img id="match-image" src="" alt="" />
+
+  <script src="data-match.js?v=1"></script>
   <script>
-    let currentIndex = 0;
-    let selectedArtist = null;
-    let selectedVenue = null;
-    let results = [];
+    const artistColumn = document.getElementById('artist-column');
+    const venueColumn = document.getElementById('venue-column');
+    const matchImage = document.getElementById('match-image');
 
-    const img = document.getElementById("quiz-image");
-    const optionsContainer = document.getElementById("options");
+    // Extract artist/venue pairs and current image
+    const artists = exhibitions.map(e => e.artist);
+    const venues = exhibitions.map(e => e.venue);
+    const images = exhibitions.map(e => e.image);
 
-    function renderMatchUI(quiz) {
-      optionsContainer.innerHTML = "";
-
-      img.src = quiz.image;
-
-      const container = document.createElement("div");
-      container.id = "columns";
-
-      const artistCol = document.createElement("div");
-      artistCol.className = "column";
-
-      const venueCol = document.createElement("div");
-      venueCol.className = "column";
-
-      quiz.artists.forEach(artist => {
-        const btn = document.createElement("div");
-        btn.className = "match-button";
-        btn.textContent = artist;
-        btn.onclick = () => {
-          selectedArtist = artist;
-          updateSelectionUI();
-          checkIfReady(quiz);
-        };
-        artistCol.appendChild(btn);
-      });
-
-      quiz.venues.forEach(venue => {
-        const btn = document.createElement("div");
-        btn.className = "match-button";
-        btn.textContent = venue;
-        btn.onclick = () => {
-          selectedVenue = venue;
-          updateSelectionUI();
-          checkIfReady(quiz);
-        };
-        venueCol.appendChild(btn);
-      });
-
-      container.appendChild(artistCol);
-      container.appendChild(venueCol);
-      optionsContainer.appendChild(container);
+    // Shuffle helper
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
     }
 
-    function updateSelectionUI() {
-      document.querySelectorAll(".match-button").forEach(btn => {
-        btn.classList.remove("selected");
-      });
+    const shuffledArtists = shuffle([...artists]);
+    const shuffledVenues = shuffle([...venues]);
 
-      document.querySelectorAll(".column")[0].childNodes.forEach(btn => {
-        if (btn.textContent === selectedArtist) btn.classList.add("selected");
-      });
-      document.querySelectorAll(".column")[1].childNodes.forEach(btn => {
-        if (btn.textContent === selectedVenue) btn.classList.add("selected");
-      });
-    }
+    shuffledArtists.forEach(artist => {
+      const button = document.createElement("button");
+      button.className = "match-option";
+      button.textContent = artist;
+      artistColumn.appendChild(button);
+    });
 
-    function checkIfReady(quiz) {
-      if (selectedArtist && selectedVenue) {
-        const correct =
-          selectedArtist === quiz.correctArtist &&
-          selectedVenue === quiz.correctVenue;
+    shuffledVenues.forEach(venue => {
+      const button = document.createElement("button");
+      button.className = "match-option";
+      button.textContent = venue;
+      venueColumn.appendChild(button);
+    });
 
-        const feedback = document.createElement("div");
-        feedback.className = correct
-          ? "match-feedback correct"
-          : "match-feedback wrong";
-        feedback.textContent = correct ? "🎉 Correct Match!" : "❌ Try again tomorrow.";
-
-        results.push(correct);
-        optionsContainer.appendChild(feedback);
-
-        setTimeout(() => {
-          selectedArtist = null;
-          selectedVenue = null;
-          currentIndex++;
-          if (currentIndex < exhibitions.length) {
-            renderMatchUI(exhibitions[currentIndex]);
-          } else {
-            optionsContainer.innerHTML = `<p><strong>Done!</strong> You got ${results.filter(r => r).length} out of ${results.length} right.</p>`;
-            img.style.display = "none";
-          }
-        }, 1500);
-      }
-    }
-
-    renderMatchUI(exhibitions[currentIndex]);
+    // Optional: display a random image for now (could later update on selection)
+    matchImage.src = images[Math.floor(Math.random() * images.length)];
   </script>
 </body>
 </html>
-
