@@ -287,14 +287,26 @@
         </button>
       `;
 
-      galleryContainer.appendChild(summaryDiv);
+// Clear columns completely and add results to the main container
+const columns = document.querySelector(".columns");
+columns.innerHTML = ""; // clears artist + gallery buttons
 
-      const footer = document.createElement("div");
-      footer.style.marginTop = "2rem";
-      footer.innerHTML = `
-        <p>Questions or feedback? <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a></p>
-      `;
-      galleryContainer.appendChild(footer);
+const resultWrapper = document.createElement("div");
+resultWrapper.style.textAlign = "center";
+resultWrapper.style.marginTop = "2rem";
+
+resultWrapper.innerHTML = `
+  <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
+  <p style="font-weight: bold; margin-bottom: 0.5rem;">${summaryText}</p>
+  <button onclick="navigator.clipboard.writeText('${summaryText}').then(() => alert('Copied to clipboard!'));">
+    Tell Friends
+  </button>
+  <div style="font-size: 0.9rem; margin-top: 2rem;">
+    <p>Questions or feedback? <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a></p>
+  </div>
+`;
+
+columns.appendChild(resultWrapper);
     }
 
     // Start game
