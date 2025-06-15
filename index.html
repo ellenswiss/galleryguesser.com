@@ -5,11 +5,11 @@
   <meta charset="UTF-8">
   <title>Gallery Guesser</title>
 
-  <meta name="description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
+  <meta name="description" content="A visual quiz game. Can you guess the exhibition?" />
   
   <!-- Open Graph -->
 <meta property="og:title" content="Gallery Guesser" />
-<meta property="og:description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
+<meta property="og:description" content="A visual quiz game. Can you guess the exhibition?" />
 <meta property="og:image" content="https://galleryguesser.com/og-image.jpg" />
 <meta property="og:url" content="https://galleryguesser.com" />
 <meta property="og:type" content="website" />
@@ -17,7 +17,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Gallery Guesser" />
-<meta name="twitter:description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
+<meta name="twitter:description" content="A visual quiz game. Can you guess the exhibition?" />
 <meta name="twitter:image" content="https://galleryguesser.com/og-image.jpg" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -289,18 +289,6 @@ document.querySelector(".tagline").innerHTML = `
   `;
 
   optionsContainer.appendChild(summaryDiv);
-
-// Add new footer-style message under results
-const resultsFooter = document.createElement("div");
-resultsFooter.style.fontSize = "0.9rem";
-resultsFooter.style.marginTop = "2rem";
-resultsFooter.innerHTML = `
-  <p>
-    Questions or feedback?
-    <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a>
-  </p>
-`;
-optionsContainer.appendChild(resultsFooter);
 
   // Hook up share functionality after button is created
   document.getElementById("share-button").onclick = shareResult;
