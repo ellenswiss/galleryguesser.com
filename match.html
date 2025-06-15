@@ -4,7 +4,6 @@
   <link rel="icon" href="favicon.png" type="image/png">
   <meta charset="UTF-8">
   <title>Gallery Guesser</title>
-
   <meta name="description" content="A visual quiz game from See Saw. Can you guess the exhibition?" />
 
   <!-- Open Graph -->
@@ -31,7 +30,7 @@
     }
 
     body {
-      font-family: 'Theinhardt', sans-serif;
+      font-family: sans-serif;
       padding: 2rem;
       max-width: 600px;
       margin: auto;
@@ -41,95 +40,208 @@
     h2 {
       font-size: 1.25rem;
       letter-spacing: 0.05em;
-    }
-
-    #match-container {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 2rem;
-    }
-
-    .column {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: 45%;
-    }
-
-    .match-option {
-      padding: 0.75rem 1rem;
-      border: 2px solid #70c6f9;
-      border-radius: 999px;
-      background-color: white;
-      color: #70c6f9;
-      cursor: pointer;
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    .match-option:hover {
-      background-color: #70c6f9;
-      color: white;
-    }
-
-    .tagline {
-      font-size: 1rem;
-      font-weight: normal;
-      margin-bottom: 1.5rem;
+      font-family: 'Theinhardt', sans-serif;
     }
 
     img {
       max-width: 100%;
       height: auto;
-      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #progress-bar {
+      position: relative;
+      height: 8px;
+      background: #f2f2f2;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    #progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #70c6f9;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .columns {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    button {
+      margin: 0.5rem 0;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border: 2px solid #70c6f9;
+      border-radius: 999px;
+      background-color: white;
+      color: #70c6f9;
+      width: 100%;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      button:hover {
+        background-color: #70c6f9;
+        color: white;
+      }
+    }
+
+    .email-link {
+      color: #70c6f9;
+      text-decoration: none;
+    }
+
+    .email-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <h2>GALLERY GUESSER</h2>
-  <div class="tagline">Match the artist to the venue.</div>
-
-  <div id="match-container">
-    <div class="column" id="artist-column"></div>
-    <div class="column" id="venue-column"></div>
+  <div class="tagline"></div>
+  <div id="quiz-container">
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+    <img id="quiz-image" src="" alt="Exhibition image">
+    <div class="columns">
+      <div class="column" id="artist-options"></div>
+      <div class="column" id="gallery-options"></div>
+    </div>
   </div>
-
-  <img id="match-image" src="" alt="" />
 
   <script src="data-match.js?v=1"></script>
   <script>
-    const artistColumn = document.getElementById('artist-column');
-    const venueColumn = document.getElementById('venue-column');
-    const matchImage = document.getElementById('match-image');
+    let currentIndex = 0;
+    let score = 0;
+    let results = [];
+    let selectedArtist = null;
+    let selectedGallery = null;
 
-    // Extract artist/venue pairs and current image
-    const artists = exhibitions.map(e => e.artist);
-    const venues = exhibitions.map(e => e.venue);
-    const images = exhibitions.map(e => e.image);
+    const img = document.getElementById("quiz-image");
+    const artistContainer = document.getElementById("artist-options");
+    const galleryContainer = document.getElementById("gallery-options");
 
-    // Shuffle helper
     function shuffle(array) {
       return array.sort(() => Math.random() - 0.5);
     }
 
-    const shuffledArtists = shuffle([...artists]);
-    const shuffledVenues = shuffle([...venues]);
+    function showQuiz(index) {
+      const quiz = exhibitions[index];
+      img.src = quiz.image;
 
-    shuffledArtists.forEach(artist => {
-      const button = document.createElement("button");
-      button.className = "match-option";
-      button.textContent = artist;
-      artistColumn.appendChild(button);
-    });
+      // Reset selections
+      selectedArtist = null;
+      selectedGallery = null;
 
-    shuffledVenues.forEach(venue => {
-      const button = document.createElement("button");
-      button.className = "match-option";
-      button.textContent = venue;
-      venueColumn.appendChild(button);
-    });
+      const progressPercent = (index / exhibitions.length) * 100;
+      document.getElementById("progress-fill").style.width = `${progressPercent}%`;
 
-    // Optional: display a random image for now (could later update on selection)
-    matchImage.src = images[Math.floor(Math.random() * images.length)];
+      artistContainer.innerHTML = "";
+      galleryContainer.innerHTML = "";
+
+      const allArtists = shuffle([
+        quiz.artist,
+        ...exhibitions
+          .filter(e => e.artist !== quiz.artist)
+          .map(e => e.artist)
+      ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4));
+
+      const allGalleries = shuffle([
+        quiz.gallery,
+        ...exhibitions
+          .filter(e => e.gallery !== quiz.gallery)
+          .map(e => e.gallery)
+      ].filter((v, i, a) => a.indexOf(v) === i).slice(0, 4));
+
+      allArtists.forEach(name => {
+        const button = document.createElement("button");
+        button.textContent = name;
+        button.onclick = () => {
+          selectedArtist = name;
+          finalizeIfReady();
+        };
+        artistContainer.appendChild(button);
+      });
+
+      allGalleries.forEach(name => {
+        const button = document.createElement("button");
+        button.textContent = name;
+        button.onclick = () => {
+          selectedGallery = name;
+          finalizeIfReady();
+        };
+        galleryContainer.appendChild(button);
+      });
+    }
+
+    function finalizeIfReady() {
+      if (!selectedArtist || !selectedGallery) return;
+
+      const quiz = exhibitions[currentIndex];
+      const isCorrect = (selectedArtist === quiz.artist && selectedGallery === quiz.gallery);
+      results.push(isCorrect);
+      if (isCorrect) score++;
+
+      // Disable all buttons
+      document.querySelectorAll("button").forEach(b => b.disabled = true);
+
+      setTimeout(() => {
+        currentIndex++;
+        if (currentIndex < exhibitions.length) {
+          showQuiz(currentIndex);
+        } else {
+          showResults();
+        }
+      }, 1000);
+    }
+
+    function showResults() {
+      img.style.display = "none";
+      artistContainer.innerHTML = "";
+      galleryContainer.innerHTML = "";
+      document.getElementById("progress-bar").style.display = "none";
+
+      document.querySelector(".tagline").innerHTML = `
+        <span style="font-weight: normal;">Come back tomorrow for five new exhibitions.</span>
+      `;
+
+      const summaryBoxes = results.map(correct => correct ? "🟩" : "🟥").join(" ");
+      const summaryText = `I got ${score} out of ${exhibitions.length} exhibitions right on Gallery Guesser! Try it at galleryguesser.com 🎨`;
+
+      const summaryDiv = document.createElement("div");
+      summaryDiv.style.marginTop = "2rem";
+      summaryDiv.innerHTML = `
+        <div style="font-size: 2rem; margin-bottom: 1rem;">${summaryBoxes}</div>
+        <p style="font-weight: bold; margin-bottom: 0.5rem;">${summaryText}</p>
+        <button onclick="navigator.clipboard.writeText('${summaryText}').then(() => alert('Copied to clipboard!'));">
+          Tell Friends
+        </button>
+      `;
+
+      galleryContainer.appendChild(summaryDiv);
+
+      const footer = document.createElement("div");
+      footer.style.marginTop = "2rem";
+      footer.innerHTML = `
+        <p>Questions or feedback? <a href="mailto:editor@seesawmap.com?subject=Thoughts%20on%20Gallery%20Guesser" class="email-link">editor@seesawmap.com</a></p>
+      `;
+      galleryContainer.appendChild(footer);
+    }
+
+    // Start game
+    showQuiz(currentIndex);
   </script>
 </body>
 </html>
