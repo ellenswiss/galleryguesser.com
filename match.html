@@ -214,7 +214,7 @@
         line.setAttribute("y1", artistRect.top + artistRect.height / 2 - wrapperRect.top);
         line.setAttribute("x2", galleryRect.left - wrapperRect.left);
         line.setAttribute("y2", galleryRect.top + galleryRect.height / 2 - wrapperRect.top);
-        line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
+        line.setAttribute("stroke", isCorrect ? "blue" : "#999");
         line.setAttribute("visibility", "visible");
       }
 
@@ -249,7 +249,7 @@
         <p style="font-weight: bold; margin-bottom: 0.75rem;">${summaryText}</p>
         <button
           onclick="shareResult()"
-          style="display: inline-block; margin-top: 0.25rem; padding: 0.5rem 1rem; border: 2px solid #70c6f9; border-radius: 999px; background: white; color: #70c6f9; font-size: 1rem; cursor: pointer;">
+          style="display: inline-block; margin-top: 0.25rem; padding: 0.5rem 1rem; border: 2px solid #blue; border-radius: 999px; background: white; color: #blue; font-size: 1rem; cursor: pointer;">
           Tell Friends
         </button>
       `;
