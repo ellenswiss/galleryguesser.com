@@ -194,7 +194,7 @@
       });
     }
 
-    function finalizeIfReady() {
+   function finalizeIfReady() {
   if (!selectedArtist || !selectedGallery) return;
 
   const quiz = exhibitions[currentIndex];
@@ -205,29 +205,52 @@
   // Disable all buttons
   document.querySelectorAll("button").forEach(b => b.disabled = true);
 
-  // Style feedback
-  const artistButtons = document.querySelectorAll("#artist-options button");
-  const galleryButtons = document.querySelectorAll("#gallery-options button");
+  // Get selected buttons
+  const artistBtn = Array.from(document.querySelectorAll("#artist-options button"))
+    .find(btn => btn.textContent === selectedArtist);
+  const galleryBtn = Array.from(document.querySelectorAll("#gallery-options button"))
+    .find(btn => btn.textContent === selectedGallery);
 
-  artistButtons.forEach(btn => {
-    if (btn.textContent === selectedArtist) {
-      btn.innerHTML = selectedArtist === quiz.artist ? "✅" : "❌";
-      btn.classList.add("button-shrink");
-      btn.style.backgroundColor = selectedArtist === quiz.artist ? "#e6f7ff" : "#f5f5f5";
-      btn.style.color = selectedArtist === quiz.artist ? "#006699" : "#999999";
-      btn.style.borderColor = selectedArtist === quiz.artist ? "#70c6f9" : "#dddddd";
-    }
-  });
+  if (artistBtn && galleryBtn) {
+    const artistRect = artistBtn.getBoundingClientRect();
+    const galleryRect = galleryBtn.getBoundingClientRect();
+    const wrapperRect = document.getElementById("match-wrapper").getBoundingClientRect();
 
-  galleryButtons.forEach(btn => {
-    if (btn.textContent === selectedGallery) {
-      btn.innerHTML = selectedGallery === quiz.gallery ? "✅" : "❌";
-      btn.classList.add("button-shrink");
-      btn.style.backgroundColor = selectedGallery === quiz.gallery ? "#e6f7ff" : "#f5f5f5";
-      btn.style.color = selectedGallery === quiz.gallery ? "#006699" : "#999999";
-      btn.style.borderColor = selectedGallery === quiz.gallery ? "#70c6f9" : "#dddddd";
+    const line = document.getElementById("match-line");
+    line.setAttribute("x1", artistRect.right - wrapperRect.left);
+    line.setAttribute("y1", artistRect.top + artistRect.height / 2 - wrapperRect.top);
+    line.setAttribute("x2", galleryRect.left - wrapperRect.left);
+    line.setAttribute("y2", galleryRect.top + galleryRect.height / 2 - wrapperRect.top);
+    line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
+    line.setAttribute("visibility", "visible");
+  }
+
+  // Style both selected buttons
+  const selectedStyle = (btn, correct) => {
+    btn.innerHTML = correct ? "✅" : "❌";
+    btn.classList.add("button-shrink");
+    btn.style.backgroundColor = correct ? "#e6f7ff" : "#f5f5f5";
+    btn.style.color = correct ? "#006699" : "#999999";
+    btn.style.borderColor = correct ? "#70c6f9" : "#dddddd";
+  };
+
+  selectedStyle(artistBtn, selectedArtist === quiz.artist);
+  selectedStyle(galleryBtn, selectedGallery === quiz.gallery);
+
+  setTimeout(() => {
+    // Clear line
+    document.getElementById("match-line").setAttribute("visibility", "hidden");
+
+    // Load next
+    currentIndex++;
+    if (currentIndex < exhibitions.length) {
+      showQuiz(currentIndex);
+    } else {
+      showResults();
     }
-  });
+  }, 1000);
+}
+
 
   // Proceed to next question
   setTimeout(() => {
