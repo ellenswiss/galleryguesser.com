@@ -154,12 +154,21 @@
         const button = document.createElement("button");
         button.textContent = name;
         button.onclick = () => {
-          selectedArtist = name;
-          document.querySelectorAll("#artist-options button").forEach(b => b.classList.remove("selected"));
-          button.classList.add("selected");
-          maybeDrawLine();
-          finalizeIfReady();
-        };
+  const alreadySelected = button.classList.contains("selected");
+  document.querySelectorAll("#artist-options button").forEach(b => b.classList.remove("selected"));
+
+  if (alreadySelected) {
+    selectedArtist = null;
+    document.getElementById("match-line").setAttribute("visibility", "hidden");
+  } else {
+    selectedArtist = name;
+    button.classList.add("selected");
+  }
+
+  maybeDrawLine();
+  finalizeIfReady();
+};
+
         artistContainer.appendChild(button);
       });
 
@@ -167,12 +176,20 @@
         const button = document.createElement("button");
         button.textContent = name;
         button.onclick = () => {
-          selectedGallery = name;
-          document.querySelectorAll("#gallery-options button").forEach(b => b.classList.remove("selected"));
-          button.classList.add("selected");
-          maybeDrawLine();
-          finalizeIfReady();
-        };
+  const alreadySelected = button.classList.contains("selected");
+  document.querySelectorAll("#gallery-options button").forEach(b => b.classList.remove("selected"));
+
+  if (alreadySelected) {
+    selectedGallery = null;
+    document.getElementById("match-line").setAttribute("visibility", "hidden");
+  } else {
+    selectedGallery = name;
+    button.classList.add("selected");
+  }
+
+  maybeDrawLine();
+  finalizeIfReady();
+};
         galleryContainer.appendChild(button);
       });
     }
