@@ -79,6 +79,12 @@
       background-color: white;
       color: #70c6f9;
       width: 100%;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+    button.selected {
+      background-color: #70c6f9;
+      color: white;
+      border-color: #70c6f9;
     }
     @media (hover: hover) and (pointer: fine) {
       button:hover {
@@ -149,6 +155,9 @@
         button.textContent = name;
         button.onclick = () => {
           selectedArtist = name;
+          document.querySelectorAll("#artist-options button").forEach(b => b.classList.remove("selected"));
+          button.classList.add("selected");
+          maybeDrawLine();
           finalizeIfReady();
         };
         artistContainer.appendChild(button);
@@ -159,10 +168,34 @@
         button.textContent = name;
         button.onclick = () => {
           selectedGallery = name;
+          document.querySelectorAll("#gallery-options button").forEach(b => b.classList.remove("selected"));
+          button.classList.add("selected");
+          maybeDrawLine();
           finalizeIfReady();
         };
         galleryContainer.appendChild(button);
       });
+    }
+
+    function maybeDrawLine() {
+      if (!selectedArtist || !selectedGallery) return;
+
+      const artistBtn = [...document.querySelectorAll("#artist-options button")].find(btn => btn.textContent === selectedArtist);
+      const galleryBtn = [...document.querySelectorAll("#gallery-options button")].find(btn => btn.textContent === selectedGallery);
+      const wrapperRect = document.getElementById("match-wrapper").getBoundingClientRect();
+      const line = document.getElementById("match-line");
+
+      if (artistBtn && galleryBtn) {
+        const aRect = artistBtn.getBoundingClientRect();
+        const gRect = galleryBtn.getBoundingClientRect();
+
+        line.setAttribute("x1", aRect.right - wrapperRect.left);
+        line.setAttribute("y1", aRect.top + aRect.height / 2 - wrapperRect.top);
+        line.setAttribute("x2", gRect.left - wrapperRect.left);
+        line.setAttribute("y2", gRect.top + gRect.height / 2 - wrapperRect.top);
+        line.setAttribute("stroke", "#70c6f9");
+        line.setAttribute("visibility", "visible");
+      }
     }
 
     function finalizeIfReady() {
@@ -177,19 +210,10 @@
 
       const artistBtn = [...document.querySelectorAll("#artist-options button")].find(btn => btn.textContent === selectedArtist);
       const galleryBtn = [...document.querySelectorAll("#gallery-options button")].find(btn => btn.textContent === selectedGallery);
+      const line = document.getElementById("match-line");
 
       if (artistBtn && galleryBtn) {
-        const aRect = artistBtn.getBoundingClientRect();
-        const gRect = galleryBtn.getBoundingClientRect();
-        const wrapRect = document.getElementById("match-wrapper").getBoundingClientRect();
-        const line = document.getElementById("match-line");
-
-        line.setAttribute("x1", aRect.right - wrapRect.left);
-        line.setAttribute("y1", aRect.top + aRect.height / 2 - wrapRect.top);
-        line.setAttribute("x2", gRect.left - wrapRect.left);
-        line.setAttribute("y2", gRect.top + gRect.height / 2 - wrapRect.top);
         line.setAttribute("stroke", isCorrect ? "#70c6f9" : "#999");
-        line.setAttribute("visibility", "visible");
       }
 
       const styleBtn = (btn, correct) => {
@@ -204,7 +228,7 @@
       styleBtn(galleryBtn, selectedGallery === quiz.gallery);
 
       setTimeout(() => {
-        document.getElementById("match-line").setAttribute("visibility", "hidden");
+        line.setAttribute("visibility", "hidden");
         currentIndex++;
         if (currentIndex < exhibitions.length) {
           showQuiz(currentIndex);
